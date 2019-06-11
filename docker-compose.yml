@@ -1,0 +1,29 @@
+version: '3'
+services:
+  npm:
+    build:
+      context: .
+      dockerfile: Dockerfile.npm
+    command: "npm run serve"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./ui/:/app/ui/
+    environment:
+      - VUE_APP_API_HOST=http://127.0.0.1:5000
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    command: "python app.py"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend/:/app/backend/
+    environment:
+      - FLASK_APP=app.py
+      - GAQ_CLIENT_ID=${GAQ_CLIENT_ID}
+      - GAQ_CLIENT_SECRET=${GAQ_CLIENT_SECRET}
+      - GAQ_REFRESH_TOKEN=${GAQ_REFRESH_TOKEN}
+      - GAQ_DEVELOPER_TOKEN=${GAQ_DEVELOPER_TOKEN}

@@ -1,0 +1,17 @@
+FROM node:lts-alpine
+
+# Add Bash for debugging convenience
+RUN apk add --no-cache bash
+
+RUN mkdir -p /app/ui
+
+WORKDIR /app/ui
+
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY ui/package*.json ./
+
+# install project dependencies
+RUN npm install
+
+# copy project files and folders to the current working directory (i.e. 'app' folder)
+COPY ui/. ./
